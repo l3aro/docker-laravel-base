@@ -8,6 +8,7 @@ RUN install-php-extensions \
     gd \
     intl \
     imagick \
+    swoole \
     && apk upgrade \
     && apk add --update --no-cache \
     bash \
