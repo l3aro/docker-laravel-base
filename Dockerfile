@@ -1,4 +1,4 @@
-FROM serversideup/php:8.4-fpm-nginx-alpine
+FROM serversideup/php:8.4-fpm-nginx
 
 USER root
 
@@ -9,15 +9,16 @@ RUN install-php-extensions \
     intl \
     imagick \
     swoole \
-    && apk upgrade \
-    && apk add --update --no-cache \
+    && apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     bash \
-    jpegoptim optipng pngquant gifsicle libavif \
+    jpegoptim optipng pngquant gifsicle libavif-bin \
     nodejs \
     npm \
     && npm install -g pnpm \
     && npm install -g svgo \
-    && rm -rf /var/cache/apk/* /tmp/* /var/tmp/*
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN mkdir -p \
     storage/framework/sessions \
@@ -29,16 +30,18 @@ RUN mkdir -p \
     bootstrap/cache && chmod -R a+rw storage \
     && chown -R www-data:www-data storage
 
-ENV ENV="/home/www-data/.bashrc"
+ENV ENV="/var/www/.bashrc"
 
 COPY .docker /package/custom/
 
-RUN cp /package/custom/config/alias.sh /home/www-data/bash-alias.sh
+RUN cp /package/custom/config/alias.sh /var/www/bash-alias.sh
 RUN cp /package/custom/config/livewire.conf /etc/nginx/server-opts.d/livewire.conf
-RUN chown www-data:www-data /home/www-data/bash-alias.sh
+RUN chown www-data:www-data /var/www/bash-alias.sh
 RUN chown www-data:www-data /etc/nginx/server-opts.d/livewire.conf
 
-RUN cat /home/www-data/bash-alias.sh >> /home/www-data/.bashrc \
-    && source /home/www-data/.bashrc
+RUN cat /var/www/bash-alias.sh >> /var/www/.bashrc \
+    && bash -lc "source /var/www/.bashrc"
+
+RUN usermod -s /bin/bash www-data
 
 USER www-data
