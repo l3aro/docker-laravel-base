@@ -43,5 +43,3 @@ RUN cat /var/www/bash-alias.sh >> /var/www/.bashrc \
     && bash -lc "source /var/www/.bashrc"
 
 RUN usermod -s /bin/bash www-data
-
-USER www-data
