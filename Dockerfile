@@ -1,4 +1,4 @@
-FROM serversideup/php:8.4-fpm-nginx
+FROM serversideup/php:8.4.13-frankenphp-trixie-v4.0.0-beta1
 
 USER root
 
@@ -8,7 +8,6 @@ RUN install-php-extensions \
     gd \
     intl \
     imagick \
-    swoole \
     && apt-get update \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     bash \
@@ -35,9 +34,9 @@ ENV ENV="/var/www/.bashrc"
 COPY .docker /package/custom/
 
 RUN cp /package/custom/config/alias.sh /var/www/bash-alias.sh
-RUN cp /package/custom/config/livewire.conf /etc/nginx/server-opts.d/livewire.conf
+# RUN cp /package/custom/config/livewire.conf /etc/nginx/server-opts.d/livewire.conf
 RUN chown www-data:www-data /var/www/bash-alias.sh
-RUN chown www-data:www-data /etc/nginx/server-opts.d/livewire.conf
+# RUN chown www-data:www-data /etc/nginx/server-opts.d/livewire.conf
 
 RUN cat /var/www/bash-alias.sh >> /var/www/.bashrc \
     && bash -lc "source /var/www/.bashrc"
