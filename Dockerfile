@@ -1,4 +1,4 @@
-FROM serversideup/php:8.4.13-frankenphp-trixie-v4.0.0-beta1
+FROM serversideup/php:8.4-cli
 
 USER root
 
