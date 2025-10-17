@@ -14,6 +14,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        variation: [web, worker]
     permissions:
       contents: read
       packages: write
@@ -32,18 +35,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 'Generate Tags'
-        id: tags
-        uses: cssnr/docker-tags-action@v1
-        with:
-          images: ${{ env.REG_URL }}/${{ github.repository }}
-          tags: ${{ github.sha }}
-
       - name: Build and push Docker image
         uses: docker/build-push-action@v6
         with:
-          context: .
+          file: src/variations/${{ matrix.variation }}/Dockerfile
           platforms: 'linux/amd64,linux/arm64'
           push: true
-          tags: ${{ steps.tags.outputs.tags }}
-          labels: ${{ steps.tags.outputs.labels }}
+          tags: ghcr.io/l3aro/docker-laravel-base:${{ matrix.variation }}
