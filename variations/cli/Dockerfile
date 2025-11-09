@@ -28,3 +28,5 @@ RUN mkdir -p \
     storage/app \
     bootstrap/cache && chmod -R a+rw storage \
     && chown -R www-data:www-data storage
+
+COPY .docker /package/custom/
