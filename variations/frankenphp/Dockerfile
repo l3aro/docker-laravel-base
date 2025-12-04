@@ -1,4 +1,4 @@
-FROM serversideup/php:8.4-frankenphp-v4.0.0-beta3
+FROM serversideup/php:8.4-frankenphp
 
 USER root
 
