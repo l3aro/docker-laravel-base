@@ -1,4 +1,4 @@
-FROM serversideup/php:8.4-cli
+FROM serversideup/php:${PHP_VERSION}-cli
 
 USER root
 
