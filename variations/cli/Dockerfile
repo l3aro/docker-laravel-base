@@ -1,3 +1,5 @@
+ARG PHP_VERSION
+
 FROM serversideup/php:${PHP_VERSION}-cli
 
 USER root

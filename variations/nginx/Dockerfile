@@ -1,3 +1,5 @@
+ARG PHP_VERSION
+
 FROM serversideup/php:${PHP_VERSION}-fpm-nginx
 
 USER root
