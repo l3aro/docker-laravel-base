@@ -42,7 +42,7 @@ jobs:
           file: variations/${{ matrix.variation }}/Dockerfile
           platforms: 'linux/amd64,linux/arm64'
           push: true
-          tags: ghcr.io/l3aro/docker-laravel-base:${{ matrix.variation }}-${{ matrix.php }}
+          tags: ghcr.io/l3aro/docker-laravel-base:${{ matrix.php }}-${{ matrix.variation }}
           build-args: |
             PHP_VERSION=${{ matrix.php }}
           cache-from: type=gha
