@@ -2,6 +2,8 @@ ARG PHP_VERSION="8.5"
 
 FROM serversideup/php:${PHP_VERSION}-fpm-nginx
 
+COPY --from=oven/bun:1 /usr/local/bin/bun /usr/local/bin/bun
+
 USER root
 
 RUN install-php-extensions \
@@ -18,6 +20,7 @@ RUN install-php-extensions \
     npm \
     && npm install -g pnpm \
     && npm install -g svgo \
+    && ln -s /usr/local/bin/bun /usr/local/bin/bunx \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
