@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        variation: [nginx, cli, frankenphp]
+        variation: [nginx, cli, frankenphp, fpm]
         php: [8.5, 8.4]
     permissions:
       contents: read
