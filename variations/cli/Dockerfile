@@ -16,8 +16,8 @@ RUN install-php-extensions \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     bash \
     jpegoptim optipng pngquant gifsicle libavif-bin \
-    nodejs \
-    npm \
+    && curl -fsSL https://deb.nodesource.com/setup_24.x | bash - \
+    && apt-get install -y nodejs \
     && npm install -g pnpm \
     && npm install -g svgo \
     && ln -s /usr/local/bin/bun /usr/local/bin/bunx \
