@@ -1,6 +1,6 @@
 ARG PHP_VERSION="8.5"
 
-FROM serversideup/php:${PHP_VERSION}-cli
+FROM serversideup/php:${PHP_VERSION}-fpm
 
 COPY --from=oven/bun:1 /usr/local/bin/bun /usr/local/bin/bun
 
@@ -34,4 +34,14 @@ RUN mkdir -p \
     bootstrap/cache && chmod -R a+rw storage \
     && chown -R www-data:www-data storage
 
+ENV ENV="/var/www/.bashrc"
+
 COPY .docker /package/custom/
+
+RUN cp /package/custom/config/alias.sh /var/www/bash-alias.sh
+RUN chown www-data:www-data /var/www/bash-alias.sh
+
+RUN cat /var/www/bash-alias.sh >> /var/www/.bashrc \
+    && bash -lc "source /var/www/.bashrc"
+
+RUN usermod -s /bin/bash www-data
