@@ -3,6 +3,7 @@ name: Build and Push
 on:
   push:
     branches: ["main"]
+  workflow_dispatch:
 
 concurrency:
   group: build-and-push
@@ -42,6 +43,8 @@ jobs:
           file: variations/${{ matrix.variation }}/Dockerfile
           platforms: 'linux/amd64,linux/arm64'
           push: true
+          pull: true
+          no-cache: ${{ github.event_name == 'workflow_dispatch' }}
           tags: ghcr.io/l3aro/docker-laravel-base:${{ matrix.php }}-${{ matrix.variation }}
           build-args: |
             PHP_VERSION=${{ matrix.php }}
